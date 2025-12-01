@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нартан: Великий Мегаполис</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Анимация для заголовка */
+        .neon-text {
+            text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 40px #ff00de;
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Стили для модального окна */
+        .modal {
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .modal.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        /* СЕКРЕТНАЯ ТОЧКА */
+        .secret-dot {
+            position: fixed;
+            bottom: 3px;
+            left: 3px;
+            width: 4px;
+            height: 4px;
+            background-color: #333; /* Почти невидимая */
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            opacity: 0.2;
+        }
+        .secret-dot:hover {
+            background-color: #ff0000;
+            width: 10px;
+            height: 10px;
+            opacity: 1;
+            box-shadow: 0 0 10px red;
+        }
+
+        /* Полоса прокрутки */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff00de; 
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1974&auto=format&fit=crop" alt="Nartan City" class="w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition duration-1000">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-6xl md:text-9xl font-black mb-4 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 neon-text animate-pulse">
+                НАРТАН
+            </h1>
+            <p class="text-xl md:text-2xl text-cyan-100 tracking-widest uppercase">The Great Metropolis of the Future</p>
+            <p class="mt-4 text-gray-400 max-w-2xl mx-auto italic">"Where asphalt holds secrets and schools nurture legends"</p>
+            
+            <a href="#locations" class="mt-10 inline-block px-8 py-3 border border-cyan-500 text-cyan-500 hover:bg-cyan-500 hover:text-black transition-all duration-300 font-bold tracking-wider">
+                START THE TOUR
+            </a>
+        </div>
+    </header>
+
+    <!-- Widgets / Grid Section -->
+    <section id="locations" class="py-20 px-4 md:px-10 max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-cyan-500 brand-font">AREAS AND OBJECTS</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Школа 1 -->
+            <div onclick="openModal('school1')" class="bg-[#111] border border-gray-800 p-6 rounded-xl cursor-pointer card-hover transition-all duration-300 group">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img src="https://avatars.mds.yandex.net/get-altay/1881714/2a00000169aaa1882a39f3bfd9e0af9bdca9/orig" alt="Школа 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <h3 class="text-2xl font-bold text-purple-400 mb-2">SCHOOL #1</h3>
+                <p class="text-gray-400 text-sm line-clamp-2">An elite citadel of knowledge. Here, the future mediocrities of Nartan are trained...</p>
+                <div class="mt-4 text-cyan-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    Подробнее <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Школа 2 -->
+            <div onclick="openModal('school2')" class="bg-[#111] border border-gray-800 p-6 rounded-xl cursor-pointer card-hover transition-all duration-300 group">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img src="https://avatars.mds.yandex.net/get-altay/1899063/2a00000169d852deaaeab12f9bf51219d1a6/orig" alt="Школа 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <h3 class="text-2xl font-bold text-green-400 mb-2">SCHOOL #2</h3>
+                <p class="text-gray-400 text-sm line-clamp-2">An ancient building on the outskirts. Legend has it that beneath the foundation...</p>
+                <div class="mt-4 text-cyan-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    Подробнее <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Интернат -->
+            <div onclick="openModal('internat')" class="bg-[#111] border border-gray-800 p-6 rounded-xl cursor-pointer card-hover transition-all duration-300 group">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img src="https://avatars.mds.yandex.net/get-altay/1903890/2a00000169b0791b36fc8e16b5b929eb48e9/orig" alt="Интернат" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">BOARDING SCHOOL</h3>
+                <p class="text-gray-400 text-sm line-clamp-2">A closed area. Discipline, 5-meter-high walls, and a strict regime..</p>
+                <div class="mt-4 text-cyan-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    Подробнее <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Чистилище -->
+            <div onclick="openModal('purgatory')" class="bg-[#111] border border-gray-800 p-6 rounded-xl cursor-pointer card-hover transition-all duration-300 group">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img src="https://gorodarus.ru/images/nartan/nartanmain.jpg" alt="Чистилище" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 grayscale group-hover:grayscale-0">
+                </div>
+                <h3 class="text-2xl font-bold text-red-600 mb-2">PURGATORY</h3>
+                <p class="text-gray-400 text-sm line-clamp-2">The most dangerous area. Those who violate the Nartan Code end up here..</p>
+                <div class="mt-4 text-cyan-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    Подробнее <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Могильные Спириты -->
+            <div onclick="openModal('spirits')" class="bg-[#111] border border-gray-800 p-6 rounded-xl cursor-pointer card-hover transition-all duration-300 group">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img src="https://dk-nartan.ru/images/img/photo_2024-09-29.jpg" alt="Спириты" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 grayscale group-hover:grayscale-0">
+                </div>
+                <h3 class="text-2xl font-bold text-gray-200 mb-2">GRAVE SPIRITS</h3>
+                <p class="text-gray-400 text-sm line-clamp-2">Mystical Park with Creeps >
+                <div class="mt-4 text-cyan-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    Подробнее <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ruler Section -->
+    <section class="py-20 bg-gradient-to-b from-[#050505] to-[#1a051a] relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')]"></div>
+        
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 relative z-10">
+            <div class="w-full md:w-1/2 flex justify-center">
+                <div class="relative w-80 h-96 border-4 border-purple-900 p-2 transform rotate-2 hover:rotate-0 transition duration-500">
+                    <img src="aida.jpg" alt="Повелитель Нартана" class="w-full h-full object-cover grayscale contrast-125">
+                    <div class="absolute bottom-4 left-0 w-full text-center bg-black bg-opacity-80 py-2">
+                        <span class="text-purple-500 font-bold uppercase tracking-widest">Supreme Ruler</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <h2 class="text-5xl font-black text-white mb-6">THE LORD OF ALL NARTAN</h2>
+                <div class="h-1 w-32 bg-purple-600 mb-8 mx-auto md:mx-0"></div>
+                <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                    His name is whispered on the streets of Purgatory and reverently spoken in the halls of School No. 1.
+                    The man who united disparate districts into a single Megalopolis.
+                    He sees everything. He hears everything. He is the architect of Nartan's destinies.
+                </p>
+                <ul class="text-gray-400 space-y-2">
+                    <li><i class="fas fa-crown text-purple-500 mr-2"></i> Founder of the Great Dynasty</li>
+                    <li><i class="fas fa-eye text-purple-500 mr-2"></i> Keeper of the Keys to the Boarding School</li>
+                    <li><i class="fas fa-book-dead text-purple-500 mr-2"></i> Conqueror of Grave Spirits</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-8 text-center text-gray-600 text-xs relative">
+        <p>© 2025 Megapolis Nartan. All rights reserved by the Supreme Council..</p>
+        
+        <!-- SECRET DOT -->
+        <a href="javascript:void(0)" onclick="openCreatorModal()" class="secret-dot" title="???">
+            <img src= "https://img.freepik.com/premium-vector/elegant-gothic-letter-decorative-calligraphy-design_652281-207.jpg" class= "w-full h-full object-cover rounded-full opacity-0 hover:opacity-100 transition-opacity" alt="Secret">
+        </a>
+    </footer>
+
+    <!-- MODALS (Overlay) -->
+    <div id="modal-overlay" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm p-4">
+        <div class="bg-[#111] border border-cyan-900 max-w-2xl w-full rounded-2xl p-8 relative shadow-[0_0_50px_rgba(0,255,255,0.1)] transform scale-95 transition-transform duration-300" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white text-2xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div id="modal-body">
+                <!-- Content will be injected here via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const contentData = {
+            'school1': {
+                title: "SCHOOL No. 1",
+                img: "https://www.сш1нартан.рф/images/01010375.jpg",
+                desc: "The central educational institution of the Megapolis. Only the WORST are allowed in. The building is equipped with a system (call your parents), and graduates of School No. 1 automatically become Nartan's talentless. Biography: Built in 2077 on the site of an ancient temple of knowledge.",
+                color: "text-purple-400"
+            },
+            'school2': {
+                title: "SCHOOL No. 2",
+                img: "https://kbr-nartkala2.narod.ru/img2/march2016/march_31_2016.jpg",
+                desc: "The Second School is a bastion of tradition and rigorous trials. It trains not bureaucrats, but warriors of the spirit. Biography: The building survived the Great Storm. The walls are covered in frescoes from bygone eras. The teachers here are former martial arts masters.",
+                color: "text-green-400"
+            },
+            'internat': {
+                title: "BOARDING SCHOOL",
+                img: "https://intnartan.ru/images/bio_1.jpg",
+                desc: "Biography of the place: The boarding school was created for those who do not have a home (AHAHAHAHAHAHAHAHAHA LOOK AT THESE DOWNS), or for those whose home has become dangerous. It's a fortress inside the city. It has its own laws, its own currency, and its own hierarchy. It's easy to get in here, almost impossible to get out.",
+                color: "text-yellow-400"
+            },
+            'purgatory': {
+                title: "PURGATORY",
+                img: "https://eparhia.ru/www/news/2018/8/813303903364527.jpg",
+                desc: "Biography of the area: Purgatory is an industrial area of Narthana. Outcasts and rebels live here. There's always fog in the air. This is a place where character is tested. If you survived in Purgatory, you will survive everywhere.",
+                color: "text-red-600"
+            },
+            'spirits': {
+                title: "GRAVE SPIRITS",
+                img: "https://storage.yandexcloud.net/s3-metaratings-storage/images/09/02/090208e0b62f8df0e75edad837e08a4b.jpg",
+                desc: "The most mystical entities of nartan. Biography: mediocre,.",
+                color: "text-gray-200"
+            },
+            'creator': {
+                title: "ДОСЬЕ СОЗДАТЕЛЯ",
+        img:"theadia.jpg", 
+                desc: `
+                    <div class="text-center">
+                        <p class="mb-4 text-xl italic text-red-500 font-bold">ДОСТУП РАЗРЕШЕН. УРОВЕНЬ: ИРИНА ВАЛЕНТИНОВНА ДАЙТЕ МНЕ 10 БАЛЛЛЛОВ!!!!!! .</p>
+                        <p class="mb-2">Истинный архитектор реальности Мегаполиса.</p>
+                        <div class="bg-gray-900 p-4 rounded-lg mt-4 text-left border-l-4 border-red-500">
+                            <p class="text-gray-400 text-xs uppercase mb-1">Кодовые имена:</p>
+                            <ul class="space-y-2 font-mono text-cyan-300">
+                                <li>> Айдамир Виа Нартан</li>
+                                <li>> Айдамир Ту Одельшванк</li>
+                                <li>> Aidamir A. Taylor</li>
+                            </ul>
+                        </div>
+                        <p class="mt-4 text-sm text-gray-400">
+                            Создатель кода, повелитель пикселей и сценарист судеб Нартана. 
+                            Он наблюдает за тобой через этот экран прямо сейчас.
+                        </p>
+                    </div>
+                `,
+                color: "text-red-500"
+            }
+        };
+
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalBody = document.getElementById('modal-body');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(id) {
+            const data = contentData[id];
+            
+            modalBody.innerHTML = `
+                <h2 class="text-3xl font-bold mb-4 ${data.color} brand-font uppercase">${data.title}</h2>
+                <div class="mb-6 rounded-lg overflow-hidden h-64 border border-gray-700">
+                    <img src="${data.img}" class="w-full h-full object-cover" alt="${data.title}">
+                </div>
+                <div class="prose prose-invert max-w-none text-gray-300">
+                    ${data.desc}
+                </div>
+            `;
+            
+            modalOverlay.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modalOverlay.classList.add('active');
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function openCreatorModal() {
+            openModal('creator');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            modalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                // modalOverlay.classList.add('hidden'); // Optional if strictly toggling display
+            }, 300);
+        }
+
+        // Close on clicking outside
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
